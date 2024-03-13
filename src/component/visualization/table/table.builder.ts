@@ -13,17 +13,26 @@ import AbstractVisualizationBuilder from '../abstract-visualization.builder';
 
 export default class TableBuilder extends AbstractVisualizationBuilder {
   
-  private _columns: Array<any> = [];
-  private _columnDefs: Array<any> = [];
-  private _order: Array<any> = [];
-  private _responsive: boolean = true;
-  private _paging: boolean = true;
-  private _dom: string | undefined;
-  private _buttons: Array<any> | undefined;
-  private _language: Object | undefined;
+  private _columns: Array<any>;
+  private _columnDefs: Array<any>;
+  private _order: Array<any>;
+  private _responsive: boolean;
+  private _paging: boolean;
+  private _dom: string;
+  private _buttons: Array<any>;
+  private _language: Object;
 
   constructor(containerId: string) {
     super(containerId);
+
+    this._columns = [];
+    this._columnDefs = [];
+    this._order = [];
+    this._responsive = true;
+    this._paging = true;
+    this._dom = '<"container-fluid"<"row"<"col"B><"col text-right"f>>>rt<"container-fluid"<"row"<"col"i><"col"p>>>';
+    this._buttons = ["copy", "csv", "excel", "pdf", "print", "colvis"];
+    this._language = this.getLanguageConfig();
     
     //@ts-ignore 
     DataTable.Buttons.jszip(JSZip);
@@ -41,23 +50,12 @@ export default class TableBuilder extends AbstractVisualizationBuilder {
       responsive: this._responsive,
       paging: this._paging,
       dom: this._dom,
+      //@ts-ignore
       buttons: this._buttons,
       language: this._language,
-      autoWidth: false
+      autoWidth: false,
+      serverSide: false,
     });
-  }
-
-  reset(): TableBuilder {
-    super.reset();
-    this._columns = [];
-    this._columnDefs = [];
-    this._order = [];
-    this._responsive = true;
-    this._paging = true;
-    this._dom = '<"container-fluid"<"row"<"col"B><"col text-right"f>>>rt<"container-fluid"<"row"<"col"i><"col"p>>>';
-    this._buttons = ["copy", "csv", "excel", "pdf", "print", "colvis"];
-    this._language = this.getLanguageConfig();
-    return this;
   }
   
   setColumns(columns: Array<any>): TableBuilder {
