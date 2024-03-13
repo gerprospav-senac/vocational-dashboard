@@ -11,9 +11,6 @@ import 'datatables.net-buttons/js/buttons.colVis.mjs';
 
 import AbstractVisualizationBuilder from '../abstract-visualization.builder';
 
-DataTable?.Buttons?.jszip(JSZip);
-DataTable?.Buttons?.pdfMake(Object.assign(PDFMake, { vfs: PDFMakeFonts }));
-
 export default class TableBuilder extends AbstractVisualizationBuilder {
   
   private _columns: Array<any> = [];
@@ -25,12 +22,22 @@ export default class TableBuilder extends AbstractVisualizationBuilder {
   private _buttons: Array<any> | undefined;
   private _language: Object | undefined;
 
+  constructor(containerId: string) {
+    super(containerId);
+    
+    //@ts-ignore 
+    DataTable.Buttons.jszip(JSZip);
+    //@ts-ignore
+    DataTable.Buttons.pdfMake(Object.assign(PDFMake, { vfs: PDFMakeFonts }));
+  }
+
   build(): any {
     return new DataTable(`#${this._containerId}`, {
       data: this._data,
       columns: this._columns,
       columnDefs: this._columnDefs,
       order: this._order,
+      //@ts-ignore
       responsive: this._responsive,
       paging: this._paging,
       dom: this._dom,
