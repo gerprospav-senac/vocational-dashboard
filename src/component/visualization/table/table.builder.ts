@@ -1,14 +1,4 @@
-import JSZip from 'jszip'
-import PDFMake from 'pdfmake'
-import PDFMakeFonts from '@/component/visualization/table/vfs-fonts'
-import DataTable from 'datatables.net-bs4';
-import 'datatables.net-responsive-bs4/js/responsive.bootstrap4.min.mjs'
-import 'datatables.net-searchpanes-bs4/js/searchPanes.bootstrap4.min.mjs'
-import 'datatables.net-buttons-bs4/js/buttons.bootstrap4.min.mjs'
-import 'datatables.net-buttons/js/buttons.html5.mjs';
-import 'datatables.net-buttons/js/buttons.print.mjs';
-import 'datatables.net-buttons/js/buttons.colVis.mjs';
-
+import { getInstance } from '@/component/visualization/table/datatable';
 import AbstractVisualizationBuilder from '../abstract-visualization.builder';
 
 export default class TableBuilder extends AbstractVisualizationBuilder {
@@ -33,14 +23,10 @@ export default class TableBuilder extends AbstractVisualizationBuilder {
     this._dom = '<"container-fluid"<"row"<"col"B><"col text-right"f>>>rt<"container-fluid"<"row"<"col"i><"col"p>>>';
     this._buttons = ["copy", "csv", "excel", "pdf", "print", "colvis"];
     this._language = this.getLanguageConfig();
-    
-    //@ts-ignore 
-    DataTable.Buttons.jszip(JSZip);
-    //@ts-ignore
-    DataTable.Buttons.pdfMake(Object.assign(PDFMake, { vfs: PDFMakeFonts }));
   }
 
-  build(): any {
+  async build(): Promise<any> {
+    const DataTable = await getInstance();
     return new DataTable(`#${this._containerId}`, {
       data: this._data,
       columns: this._columns,

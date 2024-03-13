@@ -3,6 +3,7 @@ const nextConfig = {
   output: 'export',
   basePath: process.env.NODE_ENV === "production" ? '/vocational-dashboard' : '',
   trailingSlash: true,
+  reactStrictMode: false,
 }
 
 module.exports = nextConfig
