@@ -7,9 +7,7 @@ export default function Header() {
     <nav className="main-header navbar navbar-expand navbar-white navbar-light">
       <ul className="navbar-nav">
         <li className="nav-item">
-          <Link href="/" className="nav-link" data-widget="pushmenu" role="button">
-            <i className="fas fa-bars" />
-          </Link>
+          <a href="#" className="nav-link" data-widget="pushmenu" data-enable-remember="true" role="button"><i className="fas fa-bars"></i></a>
         </li>
       </ul>
     </nav>
