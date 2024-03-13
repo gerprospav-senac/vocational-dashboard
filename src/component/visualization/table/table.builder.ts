@@ -16,14 +16,29 @@ DataTable.Buttons.pdfMake(Object.assign(PDFMake, { vfs: PDFMakeFonts }));
 
 export default class TableBuilder extends AbstractVisualizationBuilder {
   
-  private _columns: Array<any>;
-  private _columnDefs: Array<any>;
-  private _order: Array<any>;
-  private _responsive: boolean;
-  private _paging: boolean;
-  private _dom: string;
-  private _buttons: Array<any>;
-  private _language: Object;
+  private _columns: Array<any> = [];
+  private _columnDefs: Array<any> = [];
+  private _order: Array<any> = [];
+  private _responsive: boolean = true;
+  private _paging: boolean = true;
+  private _dom: string | undefined;
+  private _buttons: Array<any> | undefined;
+  private _language: Object | undefined;
+
+  build(): any {
+    return new DataTable(`#${this._containerId}`, {
+      data: this._data,
+      columns: this._columns,
+      columnDefs: this._columnDefs,
+      order: this._order,
+      responsive: this._responsive,
+      paging: this._paging,
+      dom: this._dom,
+      buttons: this._buttons,
+      language: this._language,
+      autoWidth: false
+    });
+  }
 
   reset(): TableBuilder {
     super.reset();
@@ -34,43 +49,7 @@ export default class TableBuilder extends AbstractVisualizationBuilder {
     this._paging = true;
     this._dom = '<"container-fluid"<"row"<"col"B><"col text-right"f>>>rt<"container-fluid"<"row"<"col"i><"col"p>>>';
     this._buttons = ["copy", "csv", "excel", "pdf", "print", "colvis"];
-    this._language = {
-      'sEmptyTable': 'Nenhum registro encontrado',
-      'sInfo': 'Mostrando de _START_ até _END_ de _TOTAL_ registros',
-      'sInfoEmpty': 'Mostrando 0 até 0 de 0 registros',
-      'sInfoFiltered': '(Filtrados de _MAX_ registros)',
-      'sInfoPostFix': '',
-      'sInfoThousands': '.',
-      'sLengthMenu': '_MENU_ resultados por página',
-      'sLoadingRecords': 'Carregando...',
-      'sProcessing': 'Processando...',
-      'sZeroRecords': 'Nenhum registro encontrado',
-      'sSearch': 'Pesquisar',
-      'oPaginate': {
-        'sNext': 'Próximo',
-        'sPrevious': 'Anterior',
-        'sFirst': 'Primeiro',
-        'sLast': 'Último'
-      },
-      'oAria': {
-        'sSortAscending': ': Ordenar colunas de forma ascendente',
-        'sSortDescending': ': Ordenar colunas de forma descendente'
-      },
-      'select': {
-        'rows': {
-          '_': 'Selecionado %d linhas',
-          '0': 'Nenhuma linha selecionada',
-          '1': 'Selecionado 1 linha'
-        }
-      },
-      'thousands': '.',
-      'decimal': ',',
-      'buttons': {
-        'copy': 'Copiar',
-        'print': 'Imprimir',
-        'colvis': 'Coluna(s)'
-      }
-    };
+    this._language = this.getLanguageConfig();
     return this;
   }
   
@@ -108,20 +87,45 @@ export default class TableBuilder extends AbstractVisualizationBuilder {
     this._buttons = buttons;
     return this;
   }
-  
-  build(): any {
-    return new DataTable(`#${this._containerId}`, {
-      data: this._data,
-      columns: this._columns,
-      columnDefs: this._columnDefs,
-      order: this._order,
-      responsive: this._responsive,
-      paging: this._paging,
-      dom: this._dom,
-      buttons: this._buttons,
-      language: this._language,
-      autoWidth: false
-    });
+
+  getLanguageConfig(): Object {
+    return {
+      'sEmptyTable': 'Nenhum registro encontrado',
+      'sInfo': 'Mostrando de _START_ até _END_ de _TOTAL_ registros',
+      'sInfoEmpty': 'Mostrando 0 até 0 de 0 registros',
+      'sInfoFiltered': '(Filtrados de _MAX_ registros)',
+      'sInfoPostFix': '',
+      'sInfoThousands': '.',
+      'sLengthMenu': '_MENU_ resultados por página',
+      'sLoadingRecords': 'Carregando...',
+      'sProcessing': 'Processando...',
+      'sZeroRecords': 'Nenhum registro encontrado',
+      'sSearch': 'Pesquisar',
+      'oPaginate': {
+        'sNext': 'Próximo',
+        'sPrevious': 'Anterior',
+        'sFirst': 'Primeiro',
+        'sLast': 'Último'
+      },
+      'oAria': {
+        'sSortAscending': ': Ordenar colunas de forma ascendente',
+        'sSortDescending': ': Ordenar colunas de forma descendente'
+      },
+      'select': {
+        'rows': {
+          '_': 'Selecionado %d linhas',
+          '0': 'Nenhuma linha selecionada',
+          '1': 'Selecionado 1 linha'
+        }
+      },
+      'thousands': '.',
+      'decimal': ',',
+      'buttons': {
+        'copy': 'Copiar',
+        'print': 'Imprimir',
+        'colvis': 'Coluna(s)'
+      }
+    };
   }
 
 }

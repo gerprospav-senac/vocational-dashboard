@@ -1,15 +1,18 @@
 export default abstract class AbstractVisualizationBuilder {
 
   protected _containerId: string;
-  protected _data: any;
+  protected _data: any = undefined;
 
   constructor(containerId: string) {
     this._containerId = containerId;
+
     this.reset();
   }
 
+  abstract build(): any;
+
   reset(): any {
-    this._data = [];
+    this._data = undefined;
     return this;
   }
 
@@ -17,7 +20,5 @@ export default abstract class AbstractVisualizationBuilder {
     this._data = data;
     return this;
   }
-
-  abstract build(): any;
 
 }

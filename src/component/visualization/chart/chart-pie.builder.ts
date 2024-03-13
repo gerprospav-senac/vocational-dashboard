@@ -6,8 +6,10 @@ export default class ChartPieBuilder extends AbstractChartBuilder {
 
   private _chart: amcharts5Percent.PieChart;
 
-  build(): any {
-    this._chart = this._root.container.children.push(
+  constructor(containerId: string) {
+    super(containerId);
+    
+    this._chart = this._chart = this._root.container.children.push(
       amcharts5Percent.PieChart.new(
         this._root,
         {
@@ -20,7 +22,9 @@ export default class ChartPieBuilder extends AbstractChartBuilder {
         }
       )
     );
+  }
 
+  build(): any {
     this._createPieSeries();
 
     return this._root;
