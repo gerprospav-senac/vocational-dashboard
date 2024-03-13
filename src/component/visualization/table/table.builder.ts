@@ -11,8 +11,8 @@ import 'datatables.net-buttons/js/buttons.colVis.mjs';
 
 import AbstractVisualizationBuilder from '../abstract-visualization.builder';
 
-DataTable.Buttons.jszip(JSZip);
-DataTable.Buttons.pdfMake(Object.assign(PDFMake, { vfs: PDFMakeFonts }));
+DataTable?.Buttons?.jszip(JSZip);
+DataTable?.Buttons?.pdfMake(Object.assign(PDFMake, { vfs: PDFMakeFonts }));
 
 export default class TableBuilder extends AbstractVisualizationBuilder {
   
