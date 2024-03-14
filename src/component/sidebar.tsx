@@ -19,19 +19,19 @@ export default function Sidebar() {
             <li className="nav-header text-white">Navegação</li>
             <li className="nav-item">
               <Link href="/" className={`nav-link ${pathname === '/' ? 'active' : ''}`}>
-                <i className="nav-icon fas fa-tachometer-alt" />
+                <i className="nav-icon fas fa-book" />
                 <p>Perfil Educacional</p>
               </Link>
             </li>
             <li className="nav-item">
               <Link href="/market" className={`nav-link ${pathname === '/market' ? 'active' : ''}`}>
-                <i className="nav-icon fa-solid fa-circle-info" />
+                <i className="nav-icon fa-solid fa-graduation-cap" />
                 <p>Mercado</p>
               </Link>
             </li>
             <li className="nav-item">
               <Link href="/physical-network" className={`nav-link ${pathname === '/physical-network' ? 'active' : ''}`}>
-                <i className="nav-icon fa-solid fa-circle-info" />
+                <i className="nav-icon fa-solid fa-school" />
                 <p>Rede Física</p>
               </Link>
             </li>
