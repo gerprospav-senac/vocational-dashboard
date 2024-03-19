@@ -25,13 +25,13 @@ export default function Sidebar() {
             </li>
             <li className="nav-item">
               <Link href="/market" className={`nav-link ${pathname === '/market' ? 'active' : ''}`}>
-                <i className="nav-icon fa-solid fa-graduation-cap" />
+                <i className="nav-icon fa-solid fa-industry" />
                 <p>Mercado</p>
               </Link>
             </li>
             <li className="nav-item">
               <Link href="/physical-network" className={`nav-link ${pathname === '/physical-network' ? 'active' : ''}`}>
-                <i className="nav-icon fa-solid fa-school" />
+                <i className="nav-icon fa-solid fa-building" />
                 <p>Rede Física</p>
               </Link>
             </li>

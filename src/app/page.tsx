@@ -63,15 +63,15 @@ export default function Home() {
             </div>
             <div className="col-3">
               <div className="form-group">
-                <select className="form-control">
-                  <option value="" disabled selected>Unidade</option>
+                <select className="form-control" defaultValue={""}>
+                  <option value="" disabled>Unidade</option>
                 </select>
               </div>
             </div>
             <div className="col-3">
               <div className="form-group">
-                <select className="form-control">
-                  <option value="" disabled selected>Competência</option>
+                <select className="form-control" defaultValue={""}>
+                  <option value="" disabled>Competência</option>
                 </select>
               </div>
             </div>
@@ -80,6 +80,26 @@ export default function Home() {
       </div>
       <div className="content">
         <div className="container-fluid">
+          <div className="row">
+            <div className="col-6">
+              <div className="info-box">
+                <span className="info-box-icon bg-info"><i className="fa-solid fa-user"></i></span>
+                <div className="info-box-content">
+                  <span className="info-box-text">Total de matrículas</span>
+                  <span className="info-box-number">3.987</span>
+                </div>
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="info-box">
+                <span className="info-box-icon bg-success"><i className="fa-solid fa-user-graduate"></i></span>
+                <div className="info-box-content">
+                  <span className="info-box-text">Total de títulos</span>
+                  <span className="info-box-number">77</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className="card">
             <div className="card-header">
