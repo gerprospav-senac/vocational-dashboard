@@ -14,10 +14,11 @@ const _table = (reference : RefObject<HTMLTableElement>) => {
   let datatableGeneral : any = null;
   const _build = async () => {
     const builder = new TableBuilder(reference.current!.id)
-      .setData([{ name: 'Lorem Ipsum', type: 'XPTO', value: 20 }])
+      .setData([{ name: 'Lorem Ipsum', type: 'XPTO', segment: 'XPTO', value: 20 }])
       .setColumns([
         { title: 'Título', data: 'name' },
         { title: 'Tipo', data: 'type' },
+        { title: 'Segmento', data: 'segment' },
         { title: 'Nº de matrículas', data: 'value' }
       ]);
 
@@ -31,7 +32,9 @@ const _table = (reference : RefObject<HTMLTableElement>) => {
 };
 
 export default function Home() {
-  const chartRef = useRef<HTMLTableElement>(null);
+  const chartEnrollmentResourceRef = useRef<HTMLTableElement>(null);
+  const chartEnrollmentVocationalRef = useRef<HTMLTableElement>(null);
+
   const tableGeneralRef = useRef<HTMLTableElement>(null);
   const tablePSGRef = useRef<HTMLTableElement>(null);
   const tableCommercialRef = useRef<HTMLTableElement>(null);
@@ -41,10 +44,23 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const root = new ChartPieBuilder(chartRef.current!.id)
+    const root = new ChartPieBuilder(chartEnrollmentResourceRef.current!.id)
       .setData([
-        { category: 'XPTO', value: 50 },
-        { category: 'Lorem', value: 30 }
+        { category: 'Comercial', value: 2423 },
+        { category: 'PSG', value: 1564 }
+      ])
+      .build();
+
+    return () => {
+      root.dispose();
+    };
+  }, []);
+
+  useEffect(() => {
+    const root = new ChartPieBuilder(chartEnrollmentVocationalRef.current!.id)
+      .setData([
+        { category: 'OCUPAÇÃO', value: 2806 },
+        { category: 'LIVRE', value: 1181 }
       ])
       .build();
 
@@ -112,21 +128,92 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          <div className="card">
-            <div className="card-header">
-              <h3 className="card-title">Container</h3>
+          <div className="row">
+            <div className="col-6">
+              <div className="card">
+                <div className="card-header">
+                  <h3 className="card-title">Matrícula por Recurso</h3>
+                  <div className="card-tools">
+                    <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
+                  </div>
+                </div>
+                <div className="card-body">
+                  <div id="chart-enrollment-resource" className="amcharts-visualization amcharts-small" ref={chartEnrollmentResourceRef}></div>
+                </div>
+              </div>
             </div>
-            <div className="card-body">
-              <div id="chart-geographic-distribution" className="amcharts-visualization" ref={chartRef}></div>
+            <div className="col-6">
+              <div className="card">
+                <div className="card-header">
+                  <h3 className="card-title">Matrícula por Vocacional</h3>
+                  <div className="card-tools">
+                    <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
+                  </div>
+                </div>
+                <div className="card-body">
+                <div id="chart-enrollment-vocational" className="amcharts-visualization amcharts-small" ref={chartEnrollmentVocationalRef}></div>
+                </div>
+              </div>
             </div>
           </div>
-          
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">Distribuição de Matrícula nos Recursos</h3>
+              <div className="card-tools">
+                <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
+              </div>
+            </div>
+            <div className="card-body">
+              <div className="amcharts-visualization amcharts-small">Force-Directed Tree</div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">Distribuição de Matrícula nos Tipos de Curso</h3>
+              <div className="card-tools">
+                <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
+              </div>
+            </div>
+            <div className="card-body">
+              <div className="row justify-content-md-center">
+                <div className="col-6">
+                  <div className="form-group">
+                    <select className="form-control" defaultValue={""}>
+                      <option value="" disabled>Tipo de curso</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="amcharts-visualization amcharts-small">Force-Directed Tree</div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">Relação entre Matrícula e Título por Segmento</h3>
+              <div className="card-tools">
+                <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
+              </div>
+            </div>
+            <div className="card-body">
+              <div className="amcharts-visualization amcharts-small">Zoomable Bubble Chart</div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">Título por Recurso</h3>
+              <div className="card-tools">
+                <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
+              </div>
+            </div>
+            <div className="card-body">
+              <div className="amcharts-visualization amcharts-small">Venn Diagram</div>
+            </div>
+          </div>          
           <div className="card">
             <div className="card-header">
               <h3 className="card-title">Principais Títulos</h3>
               <div className="card-tools">
-              <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i>
+                <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i>
               </button>
               </div>
             </div>
@@ -148,28 +235,52 @@ export default function Home() {
                 <div className="card-body">
                   <div className="tab-content">
                     <div className="tab-pane fade show active" id="highlight-titles-general" aria-labelledby="highlight-titles-general-tab" role="tabpanel">
-                    <table
-                      id="datatable-highlight-title-general"
-                      className="table table-striped table-bordered responsive-table datatable-visualization"
-                      style={{ width: "100%" }}
-                      ref={tableGeneralRef}
-                      />
+                      <table
+                        id="datatable-highlight-title-general"
+                        className="table table-striped table-bordered responsive-table datatable-visualization"
+                        style={{ width: "100%" }}
+                        ref={tableGeneralRef}
+                        />
+                      <div className="mt-4">
+                        <p className="subsection-title">Segmento dos principais títulos</p>
+                        <div className="amcharts-visualization amcharts-small">Simple Treemap</div>
+                      </div>
+                      <div className="mt-4">
+                        <p className="subsection-title">Tipo de curso dos principais títulos</p>
+                        <div className="amcharts-visualization amcharts-small">Simple Treemap</div>
+                      </div>
                     </div>
                     <div className="tab-pane fade" id="highlight-titles-psg" aria-labelledby="highlight-titles-psg-tab" role="tabpanel">
-                    <table
-                      id="datatable-highlight-title-psg"
-                      className="table table-striped table-bordered responsive-table datatable-visualization"
-                      style={{ width: "100%" }}
-                      ref={tablePSGRef}
-                      />
+                      <table
+                        id="datatable-highlight-title-psg"
+                        className="table table-striped table-bordered responsive-table datatable-visualization"
+                        style={{ width: "100%" }}
+                        ref={tablePSGRef}
+                        />
+                      <div className="mt-4">
+                        <p className="subsection-title">Segmento dos principais títulos</p>
+                        <div className="amcharts-visualization amcharts-small">Simple Treemap</div>
+                      </div>
+                      <div className="mt-4">
+                        <p className="subsection-title">Tipo de curso dos principais títulos</p>
+                        <div className="amcharts-visualization amcharts-small">Simple Treemap</div>
+                      </div>
                     </div>
                     <div className="tab-pane fade" id="highlight-titles-commercial" aria-labelledby="highlight-titles-commercial-tab" role="tabpanel">
-                    <table
-                      id="datatable-highlight-title-commercial"
-                      className="table table-striped table-bordered responsive-table datatable-visualization"
-                      style={{ width: "100%" }}
-                      ref={tableCommercialRef}
-                      />
+                      <table
+                        id="datatable-highlight-title-commercial"
+                        className="table table-striped table-bordered responsive-table datatable-visualization"
+                        style={{ width: "100%" }}
+                        ref={tableCommercialRef}
+                        />
+                      <div className="mt-4">
+                        <p className="subsection-title">Segmento dos principais títulos</p>
+                        <div className="amcharts-visualization amcharts-small">Simple Treemap</div>
+                      </div>
+                      <div className="mt-4">
+                        <p className="subsection-title">Tipo de curso dos principais títulos</p>
+                        <div className="amcharts-visualization amcharts-small">Simple Treemap</div>
+                      </div>
                     </div>
                   </div>
                 </div>
