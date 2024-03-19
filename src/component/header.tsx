@@ -1,7 +1,5 @@
 "use client"
 
-import Link from 'next/link'
-
 export default function Header() {
   return (
     <nav className="main-header navbar navbar-expand navbar-white navbar-light">
