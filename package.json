@@ -17,19 +17,20 @@
     "datatables.net-responsive-bs4": "^3.0.0",
     "datatables.net-searchpanes-bs4": "^2.3.0",
     "jszip": "^3.10.1",
-    "pdfmake": "^0.2.9",
     "next": "14.1.0",
+    "pdfmake": "^0.2.9",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@types/pdfmake": "^0.2.9",
     "@types/node": "^20",
+    "@types/pdfmake": "^0.2.9",
+    "@types/amcharts": "^3.21.11",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "sass": "^1.69.5",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
+    "sass": "^1.69.5",
     "typescript": "^5"
   }
 }

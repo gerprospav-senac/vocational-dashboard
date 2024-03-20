@@ -93,30 +93,33 @@ export default class ChartBubbleBuilder extends AbstractChartBuilder {
 
     series.strokes.template.set('visible', false);
 
-    const circleTemplate = amcharts5.Template.new({});
+    const circleTemplate : amcharts5.Template<amcharts5.Circle> = amcharts5.Template.new({});
+    /*
     circleTemplate.adapters.add(
       'fill',
-      function(fill, target) {
-        const dataItem = target.dataItem;
+      (fill, target) => {
+        let dataItem = target.dataItem;
         if (dataItem) {
           return amcharts5.Color.fromString(dataItem.dataContext.color);
         }
-        return fill
+        return fill;
       }
     );
-
-    series.bullets.push(() => {
-      const bulletCircle = amcharts5.Circle.new(
+    */
+    const bullet = () => {
+      let bulletCircle = amcharts5.Circle.new(
         this._root,
         {
           radius: 5,
-          fill: series.get("fill"),
+          templateField: 'settings',
+          fill: series.get('fill'),
           fillOpacity: 0.8
         },
         circleTemplate
       );
       return amcharts5.Bullet.new(this._root, { sprite: bulletCircle });
-    });
+    };
+    series.bullets.push(bullet);
 
     series.set('heatRules', [{ target: circleTemplate, min: 3, max: 60, dataField: 'value', key: 'radius' }]);
 
