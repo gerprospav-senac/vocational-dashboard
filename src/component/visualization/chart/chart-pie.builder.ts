@@ -5,11 +5,12 @@ import AbstractChartBuilder from './abstract-chart.builder';
 export default class ChartPieBuilder extends AbstractChartBuilder {
 
   private _chart: amcharts5Percent.PieChart;
+  private _series: amcharts5Percent.PieSeries;
 
   constructor(containerId: string) {
     super(containerId);
     
-    this._chart = this._chart = this._root.container.children.push(
+    this._chart = this._root.container.children.push(
       amcharts5Percent.PieChart.new(
         this._root,
         {
@@ -22,16 +23,8 @@ export default class ChartPieBuilder extends AbstractChartBuilder {
         }
       )
     );
-  }
 
-  build(): any {
-    this._createPieSeries();
-
-    return this._root;
-  }
-
-  private _createPieSeries() {
-    const series = this._chart.series.push(
+    this._series = this._chart.series.push(
       amcharts5Percent.PieSeries.new(
         this._root,
         {
@@ -43,32 +36,36 @@ export default class ChartPieBuilder extends AbstractChartBuilder {
         }
       )
     );
-    
-    series.labels.template.setAll({
+  }
+
+  build(): any {
+    this._series.labels.template.setAll({
       fontSize: '0.8rem',
       fontWeight: 'bold',
       text: "{category}: {valuePercentTotal.formatNumber('#.00')}% ({value})"
     });
-    series.slices.template.setAll({
+    this._series.slices.template.setAll({
       cornerRadius: 10,
       tooltipText: "{category}: {valuePercentTotal.formatNumber('#.00')}% ({value})"
     });
-    series.states.create(
+    this._series.states.create(
       'hidden',
       {
         startAngle: 180,
         endAngle: 180
       }
     );
-    series.ticks.template.setAll({ forceHidden: true });
+    this._series.ticks.template.setAll({ forceHidden: true });
 
-    const colorset = series.get('colors');
+    const colorset = this._series.get('colors');
     if (colorset) {
       colorset.set('step', 2);
     }
 
-    series.data.setAll(this._data);
-    series.appear(1000, 100);
+    this._series.data.setAll(this._data);
+    this._series.appear(1000, 100);
+    
+    return this._root;
   }
 
 }
