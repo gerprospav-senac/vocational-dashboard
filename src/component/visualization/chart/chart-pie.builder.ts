@@ -9,6 +9,8 @@ export default class ChartPieBuilder extends AbstractChartBuilder {
 
   constructor(containerId: string) {
     super(containerId);
+
+    amcharts5.ColorSet.new(this._root, { colors: [amcharts5.color(0x000000), amcharts5.color(0x087f8c)] });
     
     this._chart = this._root.container.children.push(
       amcharts5Percent.PieChart.new(
@@ -46,7 +48,8 @@ export default class ChartPieBuilder extends AbstractChartBuilder {
     });
     this._series.slices.template.setAll({
       cornerRadius: 10,
-      tooltipText: "{category}: {valuePercentTotal.formatNumber('#.00')}% ({value})"
+      tooltipText: "{category}: {valuePercentTotal.formatNumber('#.00')}% ({value})",
+      templateField: 'sliceSettings'
     });
     this._series.states.create(
       'hidden',

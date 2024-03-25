@@ -387,8 +387,8 @@ export default function Home() {
   useEffect(() => {
     const root = new ChartPieBuilder(chartEnrollmentResourceRef.current!.id)
       .setData([
-        { category: 'Comercial', value: 2423 },
-        { category: 'PSG', value: 1564 }
+        { sliceSettings: { fill: '#408BFC', stroke: '#408BFC' }, category: 'Comercial', value: 2423 },
+        { sliceSettings: { fill: '#23209C', stroke: '#23209C' }, category: 'PSG', value: 1564 }
       ])
       .build();
 
@@ -400,8 +400,8 @@ export default function Home() {
   useEffect(() => {
     const root = new ChartPieBuilder(chartEnrollmentVocationalRef.current!.id)
       .setData([
-        { category: 'OCUPAÇÃO', value: 2806 },
-        { category: 'LIVRE', value: 1181 }
+        { sliceSettings: { fill: '#DE6A73', stroke: '#DE6A73' }, category: 'OCUPAÇÃO', value: 2806 },
+        { sliceSettings: { fill: '#6B2328', stroke: '#6B2328' }, category: 'LIVRE', value: 1181 }
       ])
       .build();
 
