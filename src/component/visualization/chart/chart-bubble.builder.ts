@@ -38,7 +38,7 @@ export default class ChartBubbleBuilder extends AbstractChartBuilder {
       amcharts5.Label.new(
         this._root,
         {
-          text: 'GDP per Capita, USD',
+          text: 'Títulos',
           x: amcharts5.p50,
           centerX: amcharts5.p50
         }
@@ -61,7 +61,7 @@ export default class ChartBubbleBuilder extends AbstractChartBuilder {
         this._root,
         {
           rotation: -90,
-          text: 'Life expectancy, years',
+          text: 'Matrículas totais',
           y: amcharts5.p50,
           centerX: amcharts5.p50
         }
@@ -84,7 +84,7 @@ export default class ChartBubbleBuilder extends AbstractChartBuilder {
             this._root,
             {
               pointerOrientation: 'horizontal',
-              labelText: "[bold]{title}[/]\nLife expectancy: {valueY.formatNumber('#.0')}\nGDP: {valueX.formatNumber('#,###.')}\nPopulation: {value.formatNumber('#,###.')}"
+              labelText: "[bold]{title}[/]\nMatrículas totais: {y.formatNumber('#,###.')}\nTítulos: {x.formatNumber('#,###.')}"
             }
           )
         }
@@ -93,36 +93,25 @@ export default class ChartBubbleBuilder extends AbstractChartBuilder {
 
     series.strokes.template.set('visible', false);
 
-    const circleTemplate : amcharts5.Template<amcharts5.Circle> = amcharts5.Template.new({});
-    /*
-    circleTemplate.adapters.add(
-      'fill',
-      (fill, target) => {
-        let dataItem = target.dataItem;
-        if (dataItem) {
-          return amcharts5.Color.fromString(dataItem.dataContext.color);
-        }
-        return fill;
-      }
-    );
-    */
-    const bullet = () => {
-      let bulletCircle = amcharts5.Circle.new(
-        this._root,
+    const template : amcharts5.Template<amcharts5.Circle> = amcharts5.Template.new({});
+    series.bullets.push((root) => {
+      return amcharts5.Bullet.new(
+        root,
         {
-          radius: 5,
-          templateField: 'settings',
-          fill: series.get('fill'),
-          fillOpacity: 0.8
-        },
-        circleTemplate
+          sprite: amcharts5.Circle.new(
+            root,
+            {
+              radius: 5,
+              fillOpacity: 0.8,
+              templateField: 'settings',
+            },
+            template
+          )
+        }
       );
-      return amcharts5.Bullet.new(this._root, { sprite: bulletCircle });
-    };
-    series.bullets.push(bullet);
+    });
 
-    series.set('heatRules', [{ target: circleTemplate, min: 3, max: 60, dataField: 'value', key: 'radius' }]);
-
+    series.set('heatRules', [{ target: template, min: 3, max: 60, dataField: 'value', key: 'radius' }]);
     series.data.setAll(this._data);
 
     this._chart.set(

@@ -3,7 +3,9 @@
 import { RefObject, useEffect, useRef } from "react";
 
 import ChartPieBuilder from "@/component/visualization/chart/chart-pie.builder";
+import ChartPackedCircleBuilder from "@/component/visualization/chart/chart-packed-circle.builder";
 import ChartTreeBuilder from "@/component/visualization/chart/chart-tree.builder";
+import ChartForceDirectedTreeBuilder from "@/component/visualization/chart/chart-force-directed-tree.builder";
 import ChartBubbleBuilder from "@/component/visualization/chart/chart-bubble.builder";
 import ChartVennBuilder from "@/component/visualization/chart/chart-venn.builder";
 import ChartTreeMapBuilder from "@/component/visualization/chart/chart-tree-map.builder";
@@ -14,324 +16,424 @@ import 'datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-searchpanes-bs4/css/searchPanes.bootstrap4.min.css';
 
+const packedCircleData = [{
+  "name": "Geral",
+  "children": [
+    {
+      "name": "Comercial",
+      "children": [
+        {
+          "name": "Qualificação Profissional",
+          "value": 963
+        },
+        {
+          "name": "Aperfeiçoamento",
+          "value": 474
+        },
+        {
+          "name": "Programas Instrumentais",
+          "value": 450
+        },
+        {
+          "name": "Programas Socioprofissionais",
+          "value": 221
+        },
+        {
+          "name": "Habilitação Profissional Técnica de Nível Médio",
+          "value": 196
+        },
+        {
+          "name": "Outros",
+          "value": 119
+        }
+      ]
+    },
+    {
+      "name": "PSG",
+      "children": [
+        {
+          "name": "Aprendizagem Profissional de Qualificação",
+          "value": 861
+        },
+        {
+          "name": "Qualificação Profissional",
+          "value": 354
+        },
+        {
+          "name": "Habilitação Profissional Técnica de Nível Médio",
+          "value": 349
+        },
+        {
+          "name": "Outros",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}];
+
+const treeData = [{
+  "name": "Geral",
+  "children": [
+    {
+      "name": "Comercial",
+      "children": [
+        {
+          "name": "Qualificação Profissional",
+          "value": 963
+        },
+        {
+          "name": "Aperfeiçoamento",
+          "value": 474
+        },
+        {
+          "name": "Programas Instrumentais",
+          "value": 450
+        },
+        {
+          "name": "Programas Socioprofissionais",
+          "value": 221
+        },
+        {
+          "name": "Habilitação Profissional Técnica de Nível Médio",
+          "value": 196
+        },
+        {
+          "name": "Outros",
+          "value": 119
+        }
+      ]
+    },
+    {
+      "name": "PSG",
+      "children": [
+        {
+          "name": "Aprendizagem Profissional de Qualificação",
+          "value": 861
+        },
+        {
+          "name": "Qualificação Profissional",
+          "value": 354
+        },
+        {
+          "name": "Habilitação Profissional Técnica de Nível Médio",
+          "value": 349
+        },
+        {
+          "name": "Outros",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}];
+
+const forceDirectedTreeData1 = [
+  {
+    name: 'Geral',
+    children: [
+      {
+        name: 'Comercial',
+        children: [
+          {
+            "name": "Qualificação Profissional",
+            "value": 963
+          },
+          {
+            "name": "Aperfeiçoamento",
+            "value": 474
+          },
+          {
+            "name": "Programas Instrumentais",
+            "value": 450
+          },
+          {
+            "name": "Programas Socioprofissionais",
+            "value": 221
+          },
+          {
+            "name": "Habilitação Profissional Técnica de Nível Médio",
+            "value": 196
+          },
+          {
+            "name": "Outros",
+            "value": 119
+          }
+        ]
+      },
+      {
+        name: 'PSG',
+        children: [
+          {
+            "name": "Aprendizagem Profissional de Qualificação",
+            "value": 861
+          },
+          {
+            "name": "Qualificação Profissional",
+            "value": 354
+          },
+          {
+            "name": "Habilitação Profissional Técnica de Nível Médio",
+            "value": 349
+          },
+          {
+            "name": "Outros",
+            "value": 0
+          }
+        ]
+      }
+    ]
+  }
+];
+
+const forceDirectedTreeData2 = [
+  {
+    name: 'Qualificação Profissional',
+    children: [
+      {
+        name: 'Beleza',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 38
+          },
+          {
+            "name": "PSG",
+            "value": 168
+          }
+        ]
+      },
+      {
+        name: 'Comércio',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 49
+          },
+          {
+            "name": "PSG",
+            "value": 22
+          }
+        ]
+      },
+      {
+        name: 'Design',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 40
+          },
+          {
+            "name": "PSG",
+            "value": 0
+          }
+        ]
+      },
+      {
+        name: 'Gastronomia',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 91
+          },
+          {
+            "name": "PSG",
+            "value": 0
+          }
+        ]
+      },
+      {
+        name: 'Gestão',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 259
+          },
+          {
+            "name": "PSG",
+            "value": 208
+          }
+        ]
+      },
+      {
+        name: 'Hospedagem',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 48
+          },
+          {
+            "name": "PSG",
+            "value": 0
+          }
+        ]
+      },
+      {
+        name: 'Instalação, Manutenção e Reparação',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 111
+          },
+          {
+            "name": "PSG",
+            "value": 0
+          }
+        ]
+      },
+      {
+        name: 'Moda',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 66
+          },
+          {
+            "name": "PSG",
+            "value": 57
+          }
+        ]
+      },
+      {
+        name: 'Saúde',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 99
+          },
+          {
+            "name": "PSG",
+            "value": 2
+          }
+        ]
+      },
+      {
+        name: 'T.I.',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 48
+          },
+          {
+            "name": "PSG",
+            "value": 0
+          }
+        ]
+      },
+      {
+        name: 'Asseio, Conservação e Zeladoria',
+        children: [
+          {
+            "name": "Comercial",
+            "value": 39
+          },
+          {
+            "name": "PSG",
+            "value": 0
+          }
+        ]
+      }
+    ]
+  }
+];
+
 const bubbleData = [
   {
-    "title": "Afghanistan",
-    "id": "AF",
-    "color": "#eea638",
-    "continent": "asia",
-    "x": 1349.69694102398,
-    "y": 60.524,
-    "value": 33397058
+    "title": "Beleza",
+    "settings": {
+      "fill": "#CEFF7A",
+      "stroke": "#CEFF7A",
+    },
+    "x": 100,
+    "y": 200,
+    "value": 100
   },
   {
-    "title": "Albania",
-    "id": "AL",
-    "color": "#d8854f",
-    "continent": "europe",
-    "x": 6969.30628256456,
-    "y": 77.185,
-    "value": 3227373
+    "title": "Comércio",
+    "settings": {
+      "fill": "#FF8080",
+      "stroke": "#FF8080",
+    },
+    "x": 80,
+    "y": 160,
+    "value": 80
   },
   {
-    "title": "Algeria",
-    "id": "DZ",
-    "color": "#de4c4f",
-    "continent": "africa",
-    "x": 6419.12782939372,
-    "y": 70.874,
-    "value": 36485828
+    "title": "Design",
+    "settings": {
+      "fill": "#B457C4",
+      "stroke": "#B457C4",
+    },
+    "x": 60,
+    "y": 120,
+    "value": 60
   },
   {
-    "title": "Angola",
-    "id": "AO",
-    "color": "#de4c4f",
-    "continent": "africa",
-    "x": 5838.15537582502,
-    "y": 51.498,
-    "value": 20162517
+    "title": "Gastronomia",
+    "settings": {
+      "fill": "#D2C2A6",
+      "stroke": "#D2C2A6",
+    },
+    "x": 40,
+    "y": 80,
+    "value": 40
   },
   {
-    "title": "Argentina",
-    "id": "AR",
-    "color": "#86a965",
-    "continent": "south_america",
-    "x": 15714.1031814398,
-    "y": 76.128,
-    "value": 41118986
+    "title": "Gestão",
+    "settings": {
+      "fill": "#F0F0F3",
+      "stroke": "#F0F0F3",
+    },
+    "x": 20,
+    "y": 40,
+    "value": 20
   },
-  {
-    "title": "Armenia",
-    "id": "AM",
-    "color": "#d8854f",
-    "continent": "europe",
-    "x": 5059.0879636443,
-    "y": 74.469,
-    "value": 3108972
-  },
-  {
-    "title": "Australia",
-    "id": "AU",
-    "color": "#8aabb0",
-    "continent": "australia",
-    "x": 36064.7372768548,
-    "y": 82.364,
-    "value": 22918688
-  },
-  {
-    "title": "Austria",
-    "id": "AT",
-    "color": "#d8854f",
-    "continent": "europe",
-    "x": 36731.6287741081,
-    "y": 80.965,
-    "value": 8428915
-  },
-  {
-    "title": "Azerbaijan",
-    "id": "AZ",
-    "color": "#d8854f",
-    "continent": "europe",
-    "x": 9291.02626998762,
-    "y": 70.686,
-    "value": 9421233
-  }
 ];
 
-const treeData = [
-  {
-    children: [{
-    children: [{
-    children: [{
-    name: "A0A00",
-    value: 91
-  }, {
-    name: "A0A01",
-    value: 87
-  }, {
-    name: "A0A02",
-    value: 65
-  }, {
-    name: "A0A03",
-    value: 46
-  }],
-    name: "A0A1"
-  }, {
-    name: "A0B1",
-    value: 35
-  }],
-    name: "A0"
-  }, {
-    children: [{
-    children: [{
-    name: "B1A00",
-    value: 3
-  }, {
-    name: "B1A01",
-    value: 6
-  }, {
-    name: "B1A02",
-    value: 88
-  }],
-    name: "B1A1"
-  }, {
-    name: "B1B1",
-    value: 45
-  }],
-    name: "B0"
-  }, {
-    children: [{
-    children: [{
-    name: "C2A00",
-    value: 63
-  }, {
-    name: "C2A01",
-    value: 18
-  }, {
-    name: "C2A02",
-    value: 16
-  }, {
-    name: "C2A03",
-    value: 30
-  }, {
-    name: "C2A04",
-    value: 8
-  }],
-    name: "C2A1"
-  }, {
-    name: "C2B1",
-    value: 44
-  }, {
-    name: "C2C1",
-    value: 75
-  }, {
-    children: [{
-    name: "C2D30",
-    value: 70
-  }, {
-    name: "C2D31",
-    value: 99
-  }],
-    name: "C2D1"
-  }],
-    name: "C0"
-  }, {
-    children: [{
-    name: "D3A1",
-    value: 81
-  }, {
-    children: [{
-    name: "D3B10",
-    value: 76
-  }, {
-    name: "D3B11",
-    value: 61
-  }, {
-    name: "D3B12",
-    value: 45
-  }, {
-    name: "D3B13",
-    value: 97
-  }],
-    name: "D3B1"
-  }, {
-    children: [{
-    name: "D3C20",
-    value: 23
-  }, {
-    name: "D3C21",
-    value: 68
-  }],
-    name: "D3C1"
-  }, {
-    name: "D3D1",
-    value: 48
-  }],
-    name: "D0"
-  }, {
-    children: [{
-    name: "E4A1",
-    value: 36
-  }, {
-    name: "E4B1",
-    value: 80
-  }, {
-    name: "E4C1",
-    value: 73
-  }, {
-    children: [{
-    name: "E4D30",
-    value: 77
-  }, {
-    name: "E4D31",
-    value: 98
-  }, {
-    name: "E4D32",
-    value: 38
-  }],
-    name: "E4D1"
-  }],
-    name: "E0"
-  }],
-    name: "Root"
-  }
-];
-
-const treeMapData = [{
+const treeMapData1 = [{
   name: "Root",
   children: [
     {
-      name: "First",
-      children: [
-        {
-          name: "A1",
-          value: 100
-        },
-        {
-          name: "A2",
-          value: 60
-        },
-        {
-          name: "A3",
-          value: 30
-        }
-      ]
+      name: "Saúde",
+      value: 3
     },
     {
-      name: "Second",
-      children: [
-        {
-          name: "B1",
-          value: 135
-        },
-        {
-          name: "B2",
-          value: 98
-        },
-        {
-          name: "B3",
-          value: 56
-        }
-      ]
+      name: "Comércio",
+      value: 2
     },
     {
-      name: "Third",
-      children: [
-        {
-          name: "C1",
-          value: 335
-        },
-        {
-          name: "C2",
-          value: 148
-        },
-        {
-          name: "C3",
-          value: 126
-        },
-        {
-          name: "C4",
-          value: 26
-        }
-      ]
+      name: "Gestão",
+      value: 2
     },
     {
-      name: "Fourth",
-      children: [
-        {
-          name: "D1",
-          value: 415
-        },
-        {
-          name: "D2",
-          value: 148
-        },
-        {
-          name: "D3",
-          value: 89
-        },
-        {
-          name: "D4",
-          value: 64
-        },
-        {
-          name: "D5",
-          value: 16
-        }
-      ]
+      name: "Beleza",
+      value: 1
     },
     {
-      name: "Fifth",
-      children: [
-        {
-          name: "E1",
-          value: 687
-        },
-        {
-          name: "E2",
-          value: 148
-        }
-      ]
+      name: "Instalação, Manutenção e Reparação",
+      value: 1
+    },
+    {
+      name: "Moda",
+      value: 1
+    }
+  ]
+}];
+
+const treeMapData2 = [{
+  name: "Root",
+  children: [
+    {
+      name: "Qualificação profissional",
+      value: 5
+    },
+    {
+      name: "Aprendizagem Profissional de Qualificação",
+      value: 3
+    },
+    {
+      name: "Habilitação Profissional Técnica de Nível Médio",
+      value: 2
     }
   ]
 }];
@@ -340,11 +442,22 @@ const _table = (reference : RefObject<HTMLTableElement>) => {
   let datatableGeneral : any = null;
   const _build = async () => {
     const builder = new TableBuilder(reference.current!.id)
-      .setData([{ name: 'Lorem Ipsum', type: 'XPTO', segment: 'XPTO', value: 20 }])
+      .setData([
+        { name: 'Aprendizagem Profissional de Qualificação em Serviços Administrativos', segment: 'Saúde', type: 'Qualificação profissional', value: 516 },
+        { name: 'Assistente Administrativo', segment: 'Saúde', type: 'Qualificação profissional', value: 311 },
+        { name: 'Informática Básica - Sistema Operacional Windows e Pacote Office', segment: 'Saúde', type: 'Qualificação profissional', value: 144 },
+        { name: 'Lógica de Programação', segment: 'Comércio', type: 'Qualificação profissional', value: 144 },
+        { name: 'Eletricista Instalador Predial de Baixa Tensão', segment: 'Comércio', type: 'Qualificação profissional', value: 111 },
+        { name: 'Maquiador', segment: 'Gestão', type: 'Aprendizagem Profissional de Qualificação', value: 98 },
+        { name: 'Técnico em Enfermagem', segment: 'Gestão', type: 'Aprendizagem Profissional de Qualificação', value: 97 },
+        { name: 'Técnico em Óptica', segment: 'Beleza', type: 'Aprendizagem Profissional de Qualificação', value: 94 },
+        { name: 'Aprendizagem Profissional de Qualificação em Serviços Comerciais', segment: 'Instalação, Manutenção e Reparação', type: 'Habilitação Profissional Técnica de Nível Médio', value: 89 },
+        { name: 'Cuidador de Idoso', segment: 'Moda', type: 'Habilitação Profissional Técnica de Nível Médio', value: 88 },
+      ])
       .setColumns([
         { title: 'Título', data: 'name' },
-        { title: 'Tipo', data: 'type' },
         { title: 'Segmento', data: 'segment' },
+        { title: 'Tipo', data: 'type' },
         { title: 'Nº de matrículas', data: 'value' }
       ]);
 
@@ -361,7 +474,9 @@ export default function Home() {
   const chartEnrollmentResourceRef = useRef<HTMLTableElement>(null);
   const chartEnrollmentVocationalRef = useRef<HTMLTableElement>(null);
 
+  const chartEnrollmentResourcePackedCircleRef = useRef<HTMLTableElement>(null);
   const chartEnrollmentResourceTreeRef = useRef<HTMLTableElement>(null);
+  const chartEnrollmentResourceForceDirectedTreeRef = useRef<HTMLTableElement>(null);
   const chartEnrollmentTypeTreeRef = useRef<HTMLTableElement>(null);
 
   const chartEnrollmentTitleSegmentBubbleRef = useRef<HTMLTableElement>(null);
@@ -400,9 +515,19 @@ export default function Home() {
   useEffect(() => {
     const root = new ChartPieBuilder(chartEnrollmentVocationalRef.current!.id)
       .setData([
-        { sliceSettings: { fill: '#DE6A73', stroke: '#DE6A73' }, category: 'OCUPAÇÃO', value: 2806 },
-        { sliceSettings: { fill: '#6B2328', stroke: '#6B2328' }, category: 'LIVRE', value: 1181 }
+        { sliceSettings: { fill: '#DE6A73', stroke: '#DE6A73' }, category: 'Ocupação específica', value: 2806 },
+        { sliceSettings: { fill: '#6B2328', stroke: '#6B2328' }, category: 'Livre oferta', value: 1181 }
       ])
+      .build();
+
+    return () => {
+      root.dispose();
+    };
+  }, []);
+
+  useEffect(() => {
+    const root = new ChartPackedCircleBuilder(chartEnrollmentResourcePackedCircleRef.current!.id)
+      .setData(packedCircleData)
       .build();
 
     return () => {
@@ -421,8 +546,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const root = new ChartTreeBuilder(chartEnrollmentTypeTreeRef.current!.id)
-      .setData(treeData)
+    const root = new ChartForceDirectedTreeBuilder(chartEnrollmentResourceForceDirectedTreeRef.current!.id)
+      .setData(forceDirectedTreeData1)
+      .build();
+
+    return () => {
+      root.dispose();
+    };
+  }, []);
+
+  useEffect(() => {
+    const root = new ChartForceDirectedTreeBuilder(chartEnrollmentTypeTreeRef.current!.id)
+      .setData(forceDirectedTreeData2)
       .build();
 
     return () => {
@@ -456,7 +591,7 @@ export default function Home() {
 
   useEffect(() => {
     const root = new ChartTreeMapBuilder(chartTitleSegmentGeneralRef.current!.id)
-      .setData(treeMapData)
+      .setData(treeMapData1)
       .build();
 
     return () => {
@@ -466,7 +601,7 @@ export default function Home() {
 
   useEffect(() => {
     const root = new ChartTreeMapBuilder(chartTitleSegmentPSGRef.current!.id)
-      .setData(treeMapData)
+      .setData(treeMapData2)
       .build();
 
     return () => {
@@ -476,7 +611,7 @@ export default function Home() {
 
   useEffect(() => {
     const root = new ChartTreeMapBuilder(chartTitleSegmentCommercialRef.current!.id)
-      .setData(treeMapData)
+      .setData(treeMapData1)
       .build();
 
     return () => {
@@ -486,7 +621,7 @@ export default function Home() {
 
   useEffect(() => {
     const root = new ChartTreeMapBuilder(chartTitleTypeGeneralRef.current!.id)
-      .setData(treeMapData)
+      .setData(treeMapData2)
       .build();
 
     return () => {
@@ -496,7 +631,7 @@ export default function Home() {
 
   useEffect(() => {
     const root = new ChartTreeMapBuilder(chartTitleTypePSGRef.current!.id)
-      .setData(treeMapData)
+      .setData(treeMapData1)
       .build();
 
     return () => {
@@ -506,7 +641,7 @@ export default function Home() {
 
   useEffect(() => {
     const root = new ChartTreeMapBuilder(chartTitleTypeCommercialRef.current!.id)
-      .setData(treeMapData)
+      .setData(treeMapData2)
       .build();
 
     return () => {
@@ -553,12 +688,15 @@ export default function Home() {
       </div>
       <div className="content">
         <div className="container-fluid">
+          <blockquote className="highlight">
+            <p>Na competência <strong>Mês/Ano</strong>, o regional <strong>DR</strong> conta com um total de <strong>000</strong> matrículas e <strong>000</strong> títulos ofertados na unidade <strong>NOMEUNID</strong>.</p>
+          </blockquote>
           <div className="row">
             <div className="col-6">
               <div className="info-box">
                 <span className="info-box-icon bg-info"><i className="fa-solid fa-user"></i></span>
                 <div className="info-box-content">
-                  <span className="info-box-text">Total de matrículas</span>
+                  <span className="info-box-text">Matrículas totais na unidade</span>
                   <span className="info-box-number">3.987</span>
                 </div>
               </div>
@@ -567,17 +705,20 @@ export default function Home() {
               <div className="info-box">
                 <span className="info-box-icon bg-success"><i className="fa-solid fa-user-graduate"></i></span>
                 <div className="info-box-content">
-                  <span className="info-box-text">Total de títulos</span>
+                  <span className="info-box-text">Títulos ofertados na unidade</span>
                   <span className="info-box-number">77</span>
                 </div>
               </div>
             </div>
           </div>
+          <blockquote className="highlight">
+            <p>Em relação as principais características da oferta, de acordo com o total de matrículas na unidade <strong>NOMEUNID</strong> do regional <strong>DR</strong>, a modalidade de recurso mais representativa é o <strong>RECURSO</strong> e o direcionamento vocacional está associado a cursos <strong>DE LIVRE OFERTA/QUE FORMAM PARA UMA OCUPAÇÃO</strong>.</p>
+          </blockquote>
           <div className="row">
             <div className="col-6">
               <div className="card">
                 <div className="card-header">
-                  <h3 className="card-title">Matrícula por Recurso</h3>
+                  <h3 className="card-title">Matrículas totais segundo modalidade de recurso</h3>
                   <div className="card-tools">
                     <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
                   </div>
@@ -590,20 +731,34 @@ export default function Home() {
             <div className="col-6">
               <div className="card">
                 <div className="card-header">
-                  <h3 className="card-title">Matrícula por Vocacional</h3>
+                  <h3 className="card-title">Matrículas totais segundo tendência educacional</h3>
                   <div className="card-tools">
                     <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
                   </div>
                 </div>
                 <div className="card-body">
-                <div id="chart-enrollment-vocational" className="amcharts-visualization amcharts-small" ref={chartEnrollmentVocationalRef}></div>
+                  <div id="chart-enrollment-vocational" className="amcharts-visualization amcharts-small" ref={chartEnrollmentVocationalRef}></div>
                 </div>
               </div>
             </div>
           </div>
+          <blockquote className="highlight">
+            <p>A análise das modalidades de recurso ofertadas pelo regional <strong>DR</strong> na unidade <strong>NOMEUNID</strong> por tipo curso, traz um total de <strong>000</strong> matrículas no recurso <strong>PSG</strong> distribuídas pelos três principais tipos de curso em ordem de prioridade: <strong>TIP1</strong>, <strong>TIP2</strong> e <strong>TIP3</strong>. Por outro lado, no recurso <strong>COMERCIAL</strong>, o total de <strong>000</strong> matrículas se divide entre: <strong>TIP1</strong>, <strong>TIP2</strong> e <strong>TIP3</strong>.</p>
+          </blockquote>
           <div className="card">
             <div className="card-header">
-              <h3 className="card-title">Distribuição de Matrícula nos Recursos</h3>
+              <h3 className="card-title">Tipos de cursos ofertados por modalidade de recurso 1</h3>
+              <div className="card-tools">
+                <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
+              </div>
+            </div>
+            <div className="card-body">
+              <div id="chart-enrollment-resource-packed-circle" className="amcharts-visualization" ref={chartEnrollmentResourcePackedCircleRef}></div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">Tipos de cursos ofertados por modalidade de recurso 2</h3>
               <div className="card-tools">
                 <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
               </div>
@@ -614,7 +769,21 @@ export default function Home() {
           </div>
           <div className="card">
             <div className="card-header">
-              <h3 className="card-title">Distribuição de Matrícula nos Tipos de Curso</h3>
+              <h3 className="card-title">Tipos de cursos ofertados por modalidade de recurso 3</h3>
+              <div className="card-tools">
+                <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
+              </div>
+            </div>
+            <div className="card-body">
+              <div id="chart-enrollment-resource-force-directed-tree" className="amcharts-visualization" ref={chartEnrollmentResourceForceDirectedTreeRef}></div>
+            </div>
+          </div>
+          <blockquote className="highlight">
+            <p>Os tipos <strong>TIP1, TIP2 (simultâneos)</strong> ofertados pelo regional <strong>DR</strong> na unidade <strong>NOMEUNID</strong> possuem matrículas nas duas modalidades de recurso. Quando observado o detalhamento em nível de segmento, o tipo <strong>TIP1</strong> tem mais representatividade no segmento <strong>SEG</strong> e no recurso <strong>REC</strong>. Em contrapartida, o segmento <strong>SEG2</strong> e no recurso <strong>REC2</strong> tem menor representatividade.</p>
+          </blockquote>
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">Tipo de curso por segmento educacional e modalidade de recurso</h3>
               <div className="card-tools">
                 <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
               </div>
@@ -632,9 +801,13 @@ export default function Home() {
               <div id="chart-enrollment-type-tree" className="amcharts-visualization" ref={chartEnrollmentTypeTreeRef}></div>
             </div>
           </div>
+          <blockquote className="highlight">
+            <p>O tópico a seguir explora associação entre o número de matrículas e a quantidade de títulos ofertados pela unidade <strong>NOMEUNID</strong> do regional <strong>DR</strong> para indicar a intensidade dessa relação, de acordo com a categoria escolhida.</p>
+            <p>O segmento educacional <strong>SEG1</strong> do eixo tecnológico <strong>EX1</strong> se destaca pelo maior número de matrículas e títulos ofertados. Em contraste, com o <strong>SEG2</strong> da modalidade de ensino <strong>SEG2</strong> que traz uma relação de menor intensidade entre matrículas e títulos ofertados pela unidade <strong>NOMEUNID</strong> do regional <strong>DR</strong>.</p>
+          </blockquote>
           <div className="card">
             <div className="card-header">
-              <h3 className="card-title">Relação entre Matrícula e Título por Segmento</h3>
+              <h3 className="card-title">Relação entre matrículas totais e títulos ofertados por segmento</h3>
               <div className="card-tools">
                 <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
               </div>
@@ -643,9 +816,12 @@ export default function Home() {
               <div id="chart-enrollment-title-segment-bubble" className="amcharts-visualization" ref={chartEnrollmentTitleSegmentBubbleRef}></div>
             </div>
           </div>
+          <blockquote className="highlight">
+            <p>O recorte por títulos ofertados na unidade <strong>NOMEUNID</strong> do regional <strong>DR</strong> traz como quantitativo o total de <strong>QDT_TIT-PSG</strong> ofertados somente na modalidade de recurso <strong>PSG</strong>, <strong>QTD-TIT-Comercial</strong> títulos restritos apenas a modalidade comercial e <strong>QTD-Comum</strong> comum as duas modalidades de recurso.</p>
+          </blockquote>
           <div className="card">
             <div className="card-header">
-              <h3 className="card-title">Título por Recurso</h3>
+              <h3 className="card-title">Quantidade de títulos ofertados segundo modalidade de recurso</h3>
               <div className="card-tools">
                 <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i></button>
               </div>
@@ -656,7 +832,7 @@ export default function Home() {
           </div>          
           <div className="card">
             <div className="card-header">
-              <h3 className="card-title">Principais Títulos</h3>
+              <h3 className="card-title">Distribuição dos títulos ofertados segundo modalidade de recurso</h3>
               <div className="card-tools">
                 <button type="button" className="btn btn-tool" data-card-widget="maximize"><i className="fas fa-expand"></i>
               </button>
@@ -680,6 +856,9 @@ export default function Home() {
                 <div className="card-body">
                   <div className="tab-content">
                     <div className="tab-pane fade show active" id="highlight-titles-general" aria-labelledby="highlight-titles-general-tab" role="tabpanel">
+                      <blockquote className="highlight">
+                        <p>Entre os <strong>QTD-Comum</strong> comum, destacam-se os títulos: <strong>TIT1</strong>, <strong>TIT2</strong>, <strong>TIT3</strong> com maior volume de matriculas.</p>
+                      </blockquote>
                       <table
                         id="datatable-highlight-title-general"
                         className="table table-striped table-bordered responsive-table datatable-visualization"
@@ -688,14 +867,23 @@ export default function Home() {
                         />
                       <div className="mt-4">
                         <p className="subsection-title">Segmento dos principais títulos</p>
+                        <blockquote className="highlight">
+                          <p>Entre os <strong>QTD-Comum</strong> comum, destacam-se os segmentos: <strong>SEG1</strong>, <strong>SEG2</strong>, <strong>SEG3</strong> com maior volume de matrículas.</p>
+                        </blockquote>
                         <div id="chart-title-segment-general" className="amcharts-visualization amcharts-small" ref={chartTitleSegmentGeneralRef}></div>
                       </div>
                       <div className="mt-4">
                         <p className="subsection-title">Tipo de curso dos principais títulos</p>
+                        <blockquote className="highlight">
+                          <p>Entre os <strong>QTD-Comum</strong> comum, destacam-se os tipos de Curso: <strong>TP1</strong>, <strong>TP2</strong>, <strong>TP3</strong> com maior volume de matrículas.</p>
+                        </blockquote>
                         <div id="chart-title-type-general" className="amcharts-visualization amcharts-small" ref={chartTitleTypeGeneralRef}></div>
                       </div>
                     </div>
                     <div className="tab-pane fade" id="highlight-titles-psg" aria-labelledby="highlight-titles-psg-tab" role="tabpanel">
+                      <blockquote className="highlight">
+                        <p>Entre os <strong>QTD-Comum</strong> comum, destacam-se os títulos: <strong>TIT1</strong>, <strong>TIT2</strong>, <strong>TIT3</strong> com maior volume de matriculas.</p>
+                      </blockquote>
                       <table
                         id="datatable-highlight-title-psg"
                         className="table table-striped table-bordered responsive-table datatable-visualization"
@@ -704,14 +892,23 @@ export default function Home() {
                         />
                       <div className="mt-4">
                         <p className="subsection-title">Segmento dos principais títulos</p>
+                        <blockquote className="highlight">
+                          <p>Entre os <strong>QTD-Comum</strong> comum, destacam-se os segmentos: <strong>SEG1</strong>, <strong>SEG2</strong>, <strong>SEG3</strong> com maior volume de matrículas.</p>
+                        </blockquote>
                         <div id="chart-title-segment-psg" className="amcharts-visualization amcharts-small" ref={chartTitleSegmentPSGRef}></div>
                       </div>
                       <div className="mt-4">
                         <p className="subsection-title">Tipo de curso dos principais títulos</p>
+                        <blockquote className="highlight">
+                          <p>Entre os <strong>QTD-Comum</strong> comum, destacam-se os tipos de Curso: <strong>TP1</strong>, <strong>TP2</strong>, <strong>TP3</strong> com maior volume de matrículas.</p>
+                        </blockquote>
                         <div id="chart-title-type-psg" className="amcharts-visualization amcharts-small" ref={chartTitleTypePSGRef}></div>
                       </div>
                     </div>
                     <div className="tab-pane fade" id="highlight-titles-commercial" aria-labelledby="highlight-titles-commercial-tab" role="tabpanel">
+                      <blockquote className="highlight">
+                        <p>Entre os <strong>QTD-Comum</strong> comum, destacam-se os títulos: <strong>TIT1</strong>, <strong>TIT2</strong>, <strong>TIT3</strong> com maior volume de matriculas.</p>
+                      </blockquote>
                       <table
                         id="datatable-highlight-title-commercial"
                         className="table table-striped table-bordered responsive-table datatable-visualization"
@@ -720,10 +917,16 @@ export default function Home() {
                         />
                       <div className="mt-4">
                         <p className="subsection-title">Segmento dos principais títulos</p>
+                        <blockquote className="highlight">
+                          <p>Entre os <strong>QTD-Comum</strong> comum, destacam-se os segmentos: <strong>SEG1</strong>, <strong>SEG2</strong>, <strong>SEG3</strong> com maior volume de matrículas.</p>
+                        </blockquote>
                         <div id="chart-title-segment-commercial" className="amcharts-visualization amcharts-small" ref={chartTitleSegmentCommercialRef}></div>
                       </div>
                       <div className="mt-4">
                         <p className="subsection-title">Tipo de curso dos principais títulos</p>
+                        <blockquote className="highlight">
+                          <p>Entre os <strong>QTD-Comum</strong> comum, destacam-se os tipos de Curso: <strong>TP1</strong>, <strong>TP2</strong>, <strong>TP3</strong> com maior volume de matrículas.</p>
+                        </blockquote>
                         <div id="chart-title-type-commercial" className="amcharts-visualization amcharts-small" ref={chartTitleTypeCommercialRef}></div>
                       </div>
                     </div>
